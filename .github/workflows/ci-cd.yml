@@ -1,38 +1,47 @@
-name: CI/CD Pipeline (React + Spring Boot)
+name: CI/CD Platforme Administrative
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
-  build:
+  build-backend:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      # === Build Spring Boot ===
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build Spring Boot backend
-        working-directory: ./backend
-        run: ./gradlew build
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        working-directory: backend/docs-administ
 
-      # === Build React ===
+      - name: Build backend with Gradle
+        run: ./gradlew build
+        working-directory: backend/docs-administ
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Build React frontend
-        working-directory: ./frontend-react
-        run: |
-          npm install
-          npm run build
+      - name: Install dependencies
+        run: npm install
+        working-directory: frontend-react
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: frontend-react
