@@ -16,7 +16,6 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Service
 public class UtilisateurService implements UserDetailsService {
@@ -45,7 +44,7 @@ public class UtilisateurService implements UserDetailsService {
     utilisateur.setRole(roleUtilisateur);
 
     utilisateur = this.utilisateurRepository.save(utilisateur);
-    //this.validationService.enregistrer(utilisateur);
+    this.validationService.enregistrer(utilisateur);
   }
 
   public void activation(Map<String, String> activation) {
