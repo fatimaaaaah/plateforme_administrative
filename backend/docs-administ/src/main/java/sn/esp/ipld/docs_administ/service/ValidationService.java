@@ -25,11 +25,11 @@ public class ValidationService {
     validation.setCreation(creation);
     Instant expiration = creation.plus(10, MINUTES);
     validation.setExpiration(expiration);
-   /* Random random = new Random();
+    Random random = new Random();
     int randomInteger = random.nextInt(999999);
-    String code = String.format("%06d", randomInteger);*/
+    String code = String.format("%06d", randomInteger);
 
-    validation.setCode("1234");
+    validation.setCode(code);
     this.validationRepository.save(validation);
     //this.notificationService.envoyer(validation);
   }
