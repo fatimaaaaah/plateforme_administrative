@@ -23,13 +23,20 @@ public class UtilisateurService implements UserDetailsService {
   private BCryptPasswordEncoder passwordEncoder;
   private ValidationService validationService;
 
-  public void inscription(Utilisateur utilisateur) {
+  public void inscription(Utilisateur utilisateur, TypeRole typeRole) {
 
     if(!utilisateur.getEmail().contains("@")) {
       throw  new RuntimeException("Votre mail invalide");
     }
     if(!utilisateur.getEmail().contains(".")) {
       throw  new RuntimeException("Votre mail invalide");
+    }
+
+    if(utilisateur.getMatricule() != null){
+      Optional<Utilisateur> utilisateurOptional = this.utilisateurRepository.findByMatricule(utilisateur.getMatricule());
+      if(utilisateurOptional.isPresent()) {
+        throw  new RuntimeException("Votre matricule est déjà utilisé");
+      }
     }
 
     Optional<Utilisateur> utilisateurOptional = this.utilisateurRepository.findByEmail(utilisateur.getEmail());
@@ -40,7 +47,7 @@ public class UtilisateurService implements UserDetailsService {
     utilisateur.setMdp(mdpCrypte);
 
     Role roleUtilisateur = new Role();
-    roleUtilisateur.setLibelle(TypeRole.UTILISATEUR);
+    roleUtilisateur.setLibelle(typeRole);
     utilisateur.setRole(roleUtilisateur);
 
     utilisateur = this.utilisateurRepository.save(utilisateur);
