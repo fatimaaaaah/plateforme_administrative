@@ -21,11 +21,11 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
-        working-directory: backend/docs-administ
+        working-directory: backend/
 
       - name: Build backend with Gradle
         run: ./gradlew build
-        working-directory: backend/docs-administ
+        working-directory: backend/
 
   build-frontend:
     runs-on: ubuntu-latest
