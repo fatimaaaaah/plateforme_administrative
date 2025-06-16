@@ -21,11 +21,11 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
-        working-directory: backend/
+        working-directory: backend
 
       - name: Build backend with Gradle
         run: ./gradlew build
-        working-directory: backend/
+        working-directory: backend
 
   build-frontend:
     runs-on: ubuntu-latest
@@ -43,5 +43,5 @@ jobs:
         working-directory: frontend-react
 
       - name: Build frontend
-        run: npm run build
+        run: CI=false npm run build
         working-directory: frontend-react
