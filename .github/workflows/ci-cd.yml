@@ -1,4 +1,4 @@
-name: CI/CD Platforme Administrative
+name: Worflow CI/CD Plateforme Administrative
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-    build-backend:
+  build-backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -24,7 +24,6 @@ jobs:
 
       - name: Build backend with Gradle
         run: backend/./gradlew build
-
 
   build-frontend:
     runs-on: ubuntu-latest
