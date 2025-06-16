@@ -1,5 +1,4 @@
 // src/pages/DashboardChef.jsx
-import React from "react";
 import {
   Card,
   CardContent,

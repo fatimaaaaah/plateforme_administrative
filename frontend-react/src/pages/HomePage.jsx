@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
-import { FiFileText, FiUserCheck } from "react-icons/fi";
+import { FiFileText } from "react-icons/fi";
 
 
 

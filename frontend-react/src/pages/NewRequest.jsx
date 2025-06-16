@@ -10,7 +10,6 @@ import { FiFileText, FiUpload, FiArrowLeft } from "react-icons/fi";
 import { toast } from "react-hot-toast"; // ou ta propre lib de toast
 import useDocumentTypes from "../hooks/useDocumentTypes"; // adapte le chemin
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import {
   Select,
   SelectItem,
