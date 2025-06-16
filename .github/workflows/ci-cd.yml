@@ -1,4 +1,4 @@
-name: Worflow CI/CD Plateforme Administrative
+name: Workflow CI/CD Plateforme Administrative
 
 on:
   push:
