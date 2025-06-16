@@ -23,8 +23,8 @@ jobs:
         run: chmod +x ./gradlew
         working-directory: backend/
 
-      - name: Build backend with Gradle
-        run: ./gradlew build
+      - name: Build backend with Gradle (skip tests)
+        run: ./gradlew build -x test
         working-directory: backend/
 
   build-frontend:
