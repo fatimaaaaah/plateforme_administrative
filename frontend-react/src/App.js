@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import CitizenSignup from './pages/CitizenSignup';
@@ -9,10 +10,12 @@ import NewRequest from './pages/NewRequest';
 import DashboardChef from './pages/DashboardChef';
 import AllServices from './pages/AllServices';
 
+
 function App() {
   return (
     <Router>
       <Routes>
+
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<CitizenSignup />} />
         <Route path="/login" element={<LoginPage />} />
@@ -22,6 +25,7 @@ function App() {
         <Route path="/dashboard-chef" element={<DashboardChef />} />
         <Route path="/services" element={<AllServices />} />
         <Route path="/request/new" element={<NewRequest />} />
+
       </Routes>
     </Router>
   );
