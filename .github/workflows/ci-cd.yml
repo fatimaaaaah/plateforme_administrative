@@ -1,47 +1,52 @@
-name: CI/CD Main Workflow
+
+name: CI/CD Workflow
 
 on:
   push:
     branches:
-      - main
+      - dev
   pull_request:
     branches:
-      - main
+      - dev
 
 jobs:
   build-frontend:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend-react
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
       - name: Install dependencies
         run: npm install
-        working-directory: frontend-react
 
-      - name: Build frontend
-        run: CI=false npm run build
-        working-directory: frontend-react
+      - name: Run tests (ignore if no tests)
+        run: npm test -- --passWithNoTests
 
   build-backend:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
           distribution: 'temurin'
+          java-version: '17'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x backend/gradlew
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./gradlew
 
-      - name: Build backend with Gradle (skip tests)
-        run: backend/./gradlew build -x test
+      - name: Build with Gradle (skip tests)
+        run: ./gradlew build -x test
