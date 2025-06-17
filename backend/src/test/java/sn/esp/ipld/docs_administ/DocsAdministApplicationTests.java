@@ -1,10 +1,10 @@
-package com.example.backend;
+package sn.esp.ipld.docs_administ;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class DocsAdministApplicationTests {
 
 	@Test
 	void contextLoads() {
