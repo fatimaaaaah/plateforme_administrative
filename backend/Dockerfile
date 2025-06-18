@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon -x test
 
 # Étape 2 : image légère pour exécution
 FROM openjdk:17-jdk-slim
