@@ -26,6 +26,9 @@ public class Utilisateur implements UserDetails {
   @Column(name = "mot_de_passe")
   private String mdp;
   private String nom;
+  private String prenom;
+  private String nin;
+  private String telephone;
   @Column(nullable = true)
   private String matricule;
 
