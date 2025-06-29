@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from 'axios';// Importez axios
 import {
   Tabs,
   TabsContent,
@@ -16,47 +17,46 @@ import {
 import { Input } from "../components/ui/Input";
 import { Label } from "../components/ui/Label";
 import { Button } from "../components/ui/Button";
-import { fakeUsers } from "../data/fakeUsers";
 import { FileText, User, Shield, Crown, MapPin } from "lucide-react";
 import Navbar from "../components/Navbar";
 
-
-
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [role, setRole] = useState("citoyen");
+  const [role, setRole] = useState("UTILISATEUR");
   const [email, setEmail] = useState("");
   const [identifiant, setIdentifiant] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let user;
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const username = role === "UTILISATEUR" ? email : identifiant;
 
-    if (role === "citoyen") {
-      user = fakeUsers.find(
-        (u) =>
-          u.role === "citoyen" &&
-          u.email === email &&
-          u.password === password
-      );
-    } else {
-      user = fakeUsers.find(
-        (u) =>
-          u.role === role &&
-          u.identifiant === identifiant &&
-          u.password === password
-      );
-    }
+  try {
+    const response = await axios.post("http://localhost:8081/api/connexion", {
+      username: username,
+      password: password,
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      withCredentials: true
+    });
 
-    if (user) {
-      setMessage(`✅ Connexion ${role} réussie !`);
-      navigate(`/dashboard-${role}`);
-    } else {
-      setMessage(`❌ Identifiants ${role} incorrects`);
-    }
-  };
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("userRole", response.data.role.toLowerCase());
+    localStorage.setItem("userEmail", response.data.email);
+    localStorage.setItem("userName", response.data.nom);
+
+    setMessage("✅ Connexion réussie !");
+    navigate(`/dashboard-${response.data.role.toLowerCase()}`);
+    
+  } catch (error) {
+    console.error("Erreur de connexion:", error);
+    setMessage(`❌ ${error.response?.data?.message || "Erreur lors de la connexion"}`);
+  }
+};
 
   const tabIcons = {
     citoyen: <User className="w-3 h-3" />,
@@ -86,7 +86,7 @@ export default function LoginPage() {
                   className={`flex items-center space-x-1 justify-center px-2 py-1 rounded-md transition-colors 
                     ${role === key ? "bg-green-600 text-white" : "bg-white text-gray-700 hover:bg-gray-100"}`}
                 >
-                {tabIcons[key]}
+                  {tabIcons[key]}
                   <span className="text-xs capitalize">{key}</span>
                 </TabsTrigger>
               ))}
@@ -115,6 +115,7 @@ export default function LoginPage() {
                             placeholder="votre@email.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            required
                           />
                         </div>
                       ) : (
@@ -125,6 +126,7 @@ export default function LoginPage() {
                             placeholder={`ID-${key.toUpperCase()}`}
                             value={identifiant}
                             onChange={(e) => setIdentifiant(e.target.value)}
+                            required
                           />
                         </div>
                       )}
@@ -136,6 +138,7 @@ export default function LoginPage() {
                           type="password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
+                          required
                         />
                       </div>
 

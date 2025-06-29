@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Navbar from "../components/Navbar"; // ajuste le chemin si besoin
 
@@ -17,7 +18,9 @@ export default function CitizenSignup() {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
+
       [name]: type === "checkbox" ? checked : value,
+
     }));
   };
 
@@ -168,5 +171,6 @@ export default function CitizenSignup() {
         </div>
       </div>
     </>
+
   );
 }
