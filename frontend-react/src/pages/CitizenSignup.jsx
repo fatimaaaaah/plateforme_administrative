@@ -1,8 +1,12 @@
 
 import React, { useState } from "react";
 import Navbar from "../components/Navbar"; // ajuste le chemin si besoin
+import API from "../api"; // adapte le chemin si besoin
+import { useNavigate } from "react-router-dom";
 
 export default function CitizenSignup() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     prenom: "",
     nom: "",
@@ -24,15 +28,30 @@ export default function CitizenSignup() {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Les mots de passe ne correspondent pas");
-      return;
-    }
-    console.log("Données envoyées :", formData);
-    // Envoi vers backend ici
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (formData.password !== formData.confirmPassword) {
+    alert("Les mots de passe ne correspondent pas");
+    return;
+  }
+
+  try {
+    const { confirmPassword, acceptTerms, ...dataToSend } = formData;
+
+    await API.post("/inscription", dataToSend);
+
+    alert("Inscription réussie ! Vous allez être redirigé(e) vers la page de connexion.");
+    
+    // ⬇️ Redirige vers la page de login du citoyen
+    navigate("/login"); // adapte selon ta route exacte
+  } catch (error) {
+    console.error("Erreur lors de l'inscription :", error);
+    alert("Erreur lors de l'inscription !");
+  }
+};
+
+
 
   return (
     <>
