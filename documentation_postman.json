@@ -1,0 +1,276 @@
+{
+  "info": {
+    "name": "Plateforme Administrative API",
+    "description": "API pour la gestion des utilisateurs et des documents administratifs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentification",
+      "item": [
+        {
+          "name": "Inscription Utilisateur",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/inscription",
+              "host": ["{{base_url}}"],
+              "path": ["inscription"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nom\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"mdp\": \"motdepasse123\"\n}"
+            },
+            "description": "Endpoint pour l'inscription d'un nouvel utilisateur"
+          }
+        },
+        {
+          "name": "Inscription Agent Administratif",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/agents/inscription",
+              "host": ["{{base_url}}"],
+              "path": ["agents", "inscription"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nom\": \"Agent Admin\",\n    \"email\": \"agent.admin@example.com\",\n    \"mdp\": \"motdepasse123\",\n    \"matricule\": \"AGENT123\"\n}"
+            },
+            "description": "Endpoint pour l'inscription d'un nouvel agent administratif"
+          }
+        },
+        {
+          "name": "Activation Compte",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/activation",
+              "host": ["{{base_url}}"],
+              "path": ["activation"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"code\": \"123456\"\n}"
+            },
+            "description": "Endpoint pour activer un compte utilisateur avec le code reçu par email"
+          }
+        },
+        {
+          "name": "Connexion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/connexion",
+              "host": ["{{base_url}}"],
+              "path": ["connexion"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"john.doe@example.com\",\n    \"password\": \"motdepasse123\"\n}"
+            },
+            "description": "Endpoint pour la connexion d'un utilisateur (accepte email ou matricule comme username)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gestion des Demandes",
+      "item": [
+        {
+          "name": "Créer une Demande",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_utilisateur}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/demandes",
+              "host": ["{{base_url}}"],
+              "path": ["demandes"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"typeDocument\": \"EXTRACT_NAISSANCE\",\n    \"motifDemande\": \"Demande d'extrait de naissance pour renouvellement de passeport\",\n    \"informationsSupplementaires\": \"Né le 15/03/1990 à Dakar, parents: Papa et Maman\"\n}"
+            },
+            "description": "Créer une nouvelle demande de document administratif (nécessite authentification utilisateur)"
+          }
+        },
+        {
+          "name": "Voir Mes Demandes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_utilisateur}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/demandes",
+              "host": ["{{base_url}}"],
+              "path": ["demandes"]
+            },
+            "description": "Récupérer toutes les demandes de l'utilisateur connecté"
+          }
+        },
+        {
+          "name": "Voir Demandes en Attente (Agent)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/demandes/en-attente",
+              "host": ["{{base_url}}"],
+              "path": ["demandes", "en-attente"]
+            },
+            "description": "Récupérer toutes les demandes en attente de traitement (nécessite authentification agent)"
+          }
+        },
+        {
+          "name": "Voir Mes Demandes Traitées (Agent)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/demandes/agent",
+              "host": ["{{base_url}}"],
+              "path": ["demandes", "agent"]
+            },
+            "description": "Récupérer toutes les demandes traitées par l'agent connecté"
+          }
+        },
+        {
+          "name": "Traiter une Demande",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/demandes/traiter",
+              "host": ["{{base_url}}"],
+              "path": ["demandes", "traiter"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"demandeId\": 1,\n    \"statut\": \"EN_COURS_TRAITEMENT\",\n    \"commentaireAgent\": \"Demande en cours de traitement, documents en cours de vérification\"\n}"
+            },
+            "description": "Traiter une demande (changer le statut et ajouter un commentaire) - nécessite authentification agent"
+          }
+        },
+        {
+          "name": "Ajouter un Document Traité",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_agent}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/demandes/1/document",
+              "host": ["{{base_url}}"],
+              "path": ["demandes", "1", "document"]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "description": "Ajouter le document généré pour une demande traitée (nécessite authentification agent)"
+          }
+        },
+        {
+          "name": "Télécharger un Document",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_utilisateur}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/demandes/1/document",
+              "host": ["{{base_url}}"],
+              "path": ["demandes", "1", "document"]
+            },
+            "description": "Télécharger le document généré pour une demande (nécessite authentification utilisateur)"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "token_utilisateur",
+      "value": "votre_token_jwt_utilisateur",
+      "type": "string"
+    },
+    {
+      "key": "token_agent",
+      "value": "votre_token_jwt_agent",
+      "type": "string"
+    }
+  ]
+} 

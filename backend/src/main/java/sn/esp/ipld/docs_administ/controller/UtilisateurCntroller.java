@@ -15,6 +15,7 @@ import sn.esp.ipld.docs_administ.repository.UtilisateurRepository;
 import sn.esp.ipld.docs_administ.securite.JwtService;
 import sn.esp.ipld.docs_administ.service.UtilisateurService;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -45,24 +46,32 @@ public class UtilisateurCntroller {
   }
 
   @PostMapping(path = "connexion")
-  public Map<String, String> connexion(@RequestBody AuthentificationDto authentificationDto) {
-    log.info("connexion");
-    String username = authentificationDto.username();
-    
-    // Vérifier si l'identifiant est un email ou un matricule
-    Utilisateur utilisateur = utilisateurRepository.findByEmail(username)
-        .orElseGet(() -> utilisateurRepository.findByMatricule(username)
-            .orElseThrow(() -> new RuntimeException("Identifiant non trouvé")));
-    
-    // Authentifier avec l'email trouvé
-    Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(
-            utilisateur.getEmail(),
-            authentificationDto.password()
-        )
-    );
-    
-    return jwtService.generate(utilisateur.getEmail());
+  public ResponseEntity<Map<String, Object>> connexion(@RequestBody AuthentificationDto authentificationDto) {
+      log.info("connexion");
+      String username = authentificationDto.username();
+      
+      Utilisateur utilisateur = utilisateurRepository.findByEmail(username)
+          .orElseGet(() -> utilisateurRepository.findByMatricule(username)
+              .orElseThrow(() -> new RuntimeException("Identifiant non trouvé")));
+      
+      Authentication authentication = authenticationManager.authenticate(
+          new UsernamePasswordAuthenticationToken(
+              utilisateur.getEmail(),
+              authentificationDto.password()
+          )
+      );
+      
+      Map<String, String> tokens = jwtService.generate(utilisateur.getEmail());
+      
+      // Retournez plus d'informations
+      Map<String, Object> response = new HashMap<>();
+      response.put("token", tokens.get("bearer"));
+      response.put("role", utilisateur.getRole().getLibelle().name());
+      response.put("email", utilisateur.getEmail());
+      response.put("nom", utilisateur.getNom());
+      
+      return ResponseEntity.ok(response);
   }
+
 
 }
