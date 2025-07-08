@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import sn.esp.ipld.docs_administ.dto.AuthentificationDto;
+import sn.esp.ipld.docs_administ.dto.ProfileDto;
 import sn.esp.ipld.docs_administ.entity.Utilisateur;
 import sn.esp.ipld.docs_administ.enumeration.TypeRole;
 import sn.esp.ipld.docs_administ.repository.UtilisateurRepository;
@@ -21,6 +24,7 @@ import java.util.Map;
 @Slf4j
 @AllArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 public class UtilisateurCntroller {
   private AuthenticationManager authenticationManager;
@@ -38,6 +42,17 @@ public class UtilisateurCntroller {
   public void inscriptionAgent(@RequestBody Utilisateur utilisateur){
     log.info("inscription");
     this.utilisateurService.inscription(utilisateur,TypeRole.AGENTADMINIST);
+  }
+  @PostMapping(path = "admin/inscription")
+  public void inscriptionAdmin(@RequestBody Utilisateur utilisateur){
+    log.info("inscription administrateur");
+    this.utilisateurService.inscription(utilisateur, TypeRole.ADMINISTRATEUR);
+  }
+
+  @PostMapping(path = "chefquartier/inscription")
+  public void inscriptionChefQuartier(@RequestBody Utilisateur utilisateur){
+    log.info("inscription chef de quartier");
+    this.utilisateurService.inscription(utilisateur, TypeRole.CHEF_QUARTIER);
   }
 
   @PostMapping(path = "activation")
@@ -73,5 +88,24 @@ public class UtilisateurCntroller {
       return ResponseEntity.ok(response);
   }
 
-
+  @GetMapping("/utilisateurs/profile")
+  public ResponseEntity<ProfileDto> getProfile(Authentication authentication) {
+      String email = authentication.getName();
+      log.info("Récupération du profil pour: {}", email);
+      
+      Utilisateur utilisateur = utilisateurRepository.findByEmail(email)
+              .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+      
+      return ResponseEntity.ok(new ProfileDto(
+              utilisateur.getNom(),
+              utilisateur.getPrenom(),
+              utilisateur.getEmail(),
+              utilisateur.getTelephone(),
+              utilisateur.getNin(),
+              utilisateur.getRole().getLibelle().name()
+      ));
+  }
 }
+
+
+

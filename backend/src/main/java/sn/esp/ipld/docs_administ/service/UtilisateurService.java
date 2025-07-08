@@ -23,36 +23,68 @@ public class UtilisateurService implements UserDetailsService {
   private BCryptPasswordEncoder passwordEncoder;
   private ValidationService validationService;
 
+  // public void inscription(Utilisateur utilisateur, TypeRole typeRole) {
+
+  //   if(!utilisateur.getEmail().contains("@")) {
+  //     throw  new RuntimeException("Votre mail invalide");
+  //   }
+  //   if(!utilisateur.getEmail().contains(".")) {
+  //     throw  new RuntimeException("Votre mail invalide");
+  //   }
+
+  //   if(utilisateur.getMatricule() != null){
+  //     Optional<Utilisateur> utilisateurOptional = this.utilisateurRepository.findByMatricule(utilisateur.getMatricule());
+  //     if(utilisateurOptional.isPresent()) {
+  //       throw  new RuntimeException("Votre matricule est déjà utilisé");
+  //     }
+  //   }
+
+  //   Optional<Utilisateur> utilisateurOptional = this.utilisateurRepository.findByEmail(utilisateur.getEmail());
+  //   if(utilisateurOptional.isPresent()) {
+  //     throw  new RuntimeException("Votre mail est déjà utilisé");
+  //   }
+  //   String mdpCrypte = this.passwordEncoder.encode(utilisateur.getMdp());
+  //   utilisateur.setMdp(mdpCrypte);
+
+  //   Role roleUtilisateur = new Role();
+  //   roleUtilisateur.setLibelle(typeRole);
+  //   utilisateur.setRole(roleUtilisateur);
+
+  //   utilisateur = this.utilisateurRepository.save(utilisateur);
+  //   this.validationService.enregistrer(utilisateur);
+  // }
   public void inscription(Utilisateur utilisateur, TypeRole typeRole) {
 
-    if(!utilisateur.getEmail().contains("@")) {
-      throw  new RuntimeException("Votre mail invalide");
-    }
-    if(!utilisateur.getEmail().contains(".")) {
-      throw  new RuntimeException("Votre mail invalide");
-    }
-
-    if(utilisateur.getMatricule() != null){
-      Optional<Utilisateur> utilisateurOptional = this.utilisateurRepository.findByMatricule(utilisateur.getMatricule());
-      if(utilisateurOptional.isPresent()) {
-        throw  new RuntimeException("Votre matricule est déjà utilisé");
-      }
-    }
-
-    Optional<Utilisateur> utilisateurOptional = this.utilisateurRepository.findByEmail(utilisateur.getEmail());
-    if(utilisateurOptional.isPresent()) {
-      throw  new RuntimeException("Votre mail est déjà utilisé");
-    }
-    String mdpCrypte = this.passwordEncoder.encode(utilisateur.getMdp());
-    utilisateur.setMdp(mdpCrypte);
-
-    Role roleUtilisateur = new Role();
-    roleUtilisateur.setLibelle(typeRole);
-    utilisateur.setRole(roleUtilisateur);
-
-    utilisateur = this.utilisateurRepository.save(utilisateur);
-    this.validationService.enregistrer(utilisateur);
+  if (!utilisateur.getEmail().contains("@") || !utilisateur.getEmail().contains(".")) {
+    throw new RuntimeException("Votre mail est invalide");
   }
+
+  if (typeRole != TypeRole.UTILISATEUR) {
+    if (utilisateur.getMatricule() == null || utilisateur.getMatricule().isEmpty()) {
+      throw new RuntimeException("Le matricule est obligatoire pour ce rôle");
+    }
+
+    utilisateurRepository.findByMatricule(utilisateur.getMatricule())
+        .ifPresent(u -> {
+          throw new RuntimeException("Votre matricule est déjà utilisé");
+        });
+  }
+
+  utilisateurRepository.findByEmail(utilisateur.getEmail())
+      .ifPresent(u -> {
+        throw new RuntimeException("Votre mail est déjà utilisé");
+      });
+
+  utilisateur.setMdp(passwordEncoder.encode(utilisateur.getMdp()));
+
+  Role roleUtilisateur = new Role();
+  roleUtilisateur.setLibelle(typeRole);
+  utilisateur.setRole(roleUtilisateur);
+
+  utilisateur = utilisateurRepository.save(utilisateur);
+  validationService.enregistrer(utilisateur);
+}
+
 
   public void activation(Map<String, String> activation) {
     Validation validation = this.validationService.lireEnFonctionDuCode(activation.get("code"));
