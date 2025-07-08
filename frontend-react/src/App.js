@@ -19,8 +19,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<CitizenSignup />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard-citoyen" element={<DashboardCitoyen />} /> {/* Route ajoutée */}
-        <Route path="/dashboard-agent" element={<DashboardAgent />} />
+        <Route path="/dashboard-UTILISATEUR" element={<DashboardCitoyen />} /> {/* Route ajoutée */}
+        <Route path="/dashboard-AGENTADMINIST" element={<DashboardAgent />} />
         <Route path="/dashboard-admin" element={<DashboardAdmin />} />
         <Route path="/dashboard-chef" element={<DashboardChef />} />
         <Route path="/services" element={<AllServices />} />
