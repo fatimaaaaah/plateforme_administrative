@@ -4,7 +4,7 @@ import { Badge } from "../components/ui/Badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/Tabs";
 import { Input } from "../components/ui/Input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select";
-import { FileText, Clock, CheckCircle, AlertCircle, Filter} from "lucide-react";
+import { FileText, Clock, CheckCircle, AlertCircle, Filter } from "lucide-react";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,6 @@ const DashboardAgent = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Nettoyer le contexte si nécessaire
     navigate("/login");
   };
 
@@ -78,28 +77,46 @@ const DashboardAgent = () => {
             <h1 className="text-3xl font-bold text-gray-900">Tableau de bord agent</h1>
             <p className="text-gray-600">Bienvenue dans votre espace de gestion administrative.</p>
           </div>
-          <Button variant="outline" onClick={handleLogout}>Déconnexion</Button>
+          {/* <Button variant="outline" onClick={handleLogout}>Déconnexion</Button> */}
         </div>
 
         <Tabs defaultValue="requests" className="space-y-6">
-          <TabsList className="grid grid-cols-4 w-full">
-            <TabsTrigger value="requests">Demandes</TabsTrigger>
-            <TabsTrigger value="statistics">Statistiques</TabsTrigger>
-            <TabsTrigger value="citizens">Citoyens</TabsTrigger>
-            <TabsTrigger value="reports">Rapports</TabsTrigger>
+          <TabsList className="grid grid-cols-4 w-full bg-white p-1 rounded-lg shadow">
+            <TabsTrigger
+              value="requests"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Demandes
+            </TabsTrigger>
+            <TabsTrigger
+              value="statistics"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Statistiques
+            </TabsTrigger>
+            <TabsTrigger
+              value="citizens"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Citoyens
+            </TabsTrigger>
+            <TabsTrigger
+              value="reports"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Rapports
+            </TabsTrigger>
           </TabsList>
 
-          {/* Onglet Demandes */}
+          {/* Demandes */}
           <TabsContent value="requests">
             <div className="grid md:grid-cols-4 gap-6 mb-6">
-              {/* Stat Cards */}
               <Card><CardContent className="p-6"><div className="flex justify-between"><div><p className="text-sm text-gray-600">En attente</p><p className="text-2xl font-bold text-gray-900">12</p></div><AlertCircle className="w-8 h-8 text-gray-600" /></div></CardContent></Card>
               <Card><CardContent className="p-6"><div className="flex justify-between"><div><p className="text-sm text-gray-600">En cours</p><p className="text-2xl font-bold text-yellow-600">8</p></div><Clock className="w-8 h-8 text-yellow-600" /></div></CardContent></Card>
               <Card><CardContent className="p-6"><div className="flex justify-between"><div><p className="text-sm text-gray-600">Terminées</p><p className="text-2xl font-bold text-green-600">45</p></div><CheckCircle className="w-8 h-8 text-green-600" /></div></CardContent></Card>
               <Card><CardContent className="p-6"><div className="flex justify-between"><div><p className="text-sm text-gray-600">Aujourd'hui</p><p className="text-2xl font-bold text-blue-600">5</p></div><FileText className="w-8 h-8 text-blue-600" /></div></CardContent></Card>
             </div>
 
-            {/* Filtres */}
             <Card className="mb-6">
               <CardHeader><CardTitle className="flex items-center space-x-2"><Filter className="w-5 h-5" /><span>Filtres</span></CardTitle></CardHeader>
               <CardContent>
@@ -111,7 +128,6 @@ const DashboardAgent = () => {
               </CardContent>
             </Card>
 
-            {/* Liste des demandes */}
             <div className="space-y-4">
               {pendingRequests.map((req) => (
                 <Card key={req.id}>
@@ -135,7 +151,7 @@ const DashboardAgent = () => {
             </div>
           </TabsContent>
 
-          {/* Onglet Statistiques */}
+          {/* Statistiques */}
           <TabsContent value="statistics">
             <div className="grid md:grid-cols-2 gap-6">
               <Card><CardHeader><CardTitle>Mensuel</CardTitle></CardHeader><CardContent><div className="space-y-2"><p>Traitées: <strong>156</strong></p><p>Moyenne: <strong>2.3 jours</strong></p><p>Satisfaction: <strong>98%</strong></p></div></CardContent></Card>
@@ -143,7 +159,7 @@ const DashboardAgent = () => {
             </div>
           </TabsContent>
 
-          {/* Onglet Citoyens */}
+          {/* Citoyens */}
           <TabsContent value="citizens">
             <Card>
               <CardHeader>
@@ -156,7 +172,7 @@ const DashboardAgent = () => {
             </Card>
           </TabsContent>
 
-          {/* Onglet Rapports */}
+          {/* Rapports */}
           <TabsContent value="reports">
             <Card>
               <CardHeader>

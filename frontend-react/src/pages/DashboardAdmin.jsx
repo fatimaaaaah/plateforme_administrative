@@ -2,7 +2,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/Tabs";
-import { Users, FileText, Shield, Settings, BarChart3, UserCheck, AlertTriangle } from "lucide-react";
+import {
+  Users,
+  FileText,
+  Shield,
+  Settings,
+  BarChart3,
+  UserCheck,
+  AlertTriangle,
+} from "lucide-react";
 import Navbar from "../components/Navbar";
 import AgentManagement from "../components/AgentManagement";
 import ChefQuartierManagement from "../components/ChefQuartierManagement";
@@ -71,12 +79,37 @@ const DashboardAdmin = () => {
         </div>
 
         <Tabs defaultValue="users" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="users">Utilisateurs</TabsTrigger>
-            <TabsTrigger value="agents">Agents</TabsTrigger>
-            <TabsTrigger value="chefs">Chefs Quartier</TabsTrigger>
-            <TabsTrigger value="system">Système</TabsTrigger>
-            <TabsTrigger value="reports">Rapports</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-5 bg-white p-1 rounded-lg shadow">
+            <TabsTrigger
+              value="users"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Utilisateurs
+            </TabsTrigger>
+            <TabsTrigger
+              value="agents"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Agents
+            </TabsTrigger>
+            <TabsTrigger
+              value="chefs"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Chefs Quartier
+            </TabsTrigger>
+            <TabsTrigger
+              value="system"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Système
+            </TabsTrigger>
+            <TabsTrigger
+              value="reports"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Rapports
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="users" className="space-y-6">
@@ -138,7 +171,9 @@ const DashboardAdmin = () => {
                       <Settings className="h-8 w-8 text-blue-600" />
                       <div>
                         <h3 className="font-medium">Types de Documents</h3>
-                        <p className="text-sm text-gray-600">Gérer les types de documents disponibles</p>
+                        <p className="text-sm text-gray-600">
+                          Gérer les types de documents disponibles
+                        </p>
                       </div>
                     </div>
                     <Button variant="outline">Configurer</Button>
@@ -163,9 +198,7 @@ const DashboardAdmin = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Rapports et Statistiques</CardTitle>
-                <CardDescription>
-                  Analyses et rapports du système
-                </CardDescription>
+                <CardDescription>Analyses et rapports du système</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
