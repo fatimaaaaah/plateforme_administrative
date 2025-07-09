@@ -1,0 +1,23 @@
+[
+  {
+    "id": "attestation_naissance",
+    "nom": "Attestation de naissance",
+    "prix": 1000,
+    "delaiTraitement": 3,
+    "documentsRequis": ["Copie de la pièce d'identité", "Acte de naissance"]
+  },
+  {
+    "id": "certificat_residence",
+    "nom": "Certificat de résidence",
+    "prix": 1500,
+    "delaiTraitement": 2,
+    "documentsRequis": ["Justificatif de domicile", "Carte d'identité"]
+  },
+  {
+    "id": "certifcat de nationalite",
+    "nom": "certifcat de nationalite",
+    "prix": 2000,
+    "delaiTraitement": 5,
+    "documentsRequis": ["Copie de la carte nationale d'identité"]
+  }
+]

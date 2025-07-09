@@ -8,7 +8,8 @@ import { Textarea } from "../components/ui/Textarea";
 import { Checkbox } from "../components/ui/Checkbox";
 import { FiFileText, FiUpload, FiArrowLeft } from "react-icons/fi";
 import { toast } from "react-hot-toast"; // ou ta propre lib de toast
-import useDocumentTypes from "../hooks/useDocumentTypes"; // adapte le chemin
+import { useDocumentTypes } from '../hooks/useDocumentTypes';
+
 import Navbar from "../components/Navbar";
 import {
   Select,

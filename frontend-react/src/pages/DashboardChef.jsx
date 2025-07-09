@@ -94,11 +94,31 @@ const ChefDashboard = () => {
 
         {/* Onglets */}
         <Tabs defaultValue="validations" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="validations">Validations</TabsTrigger>
-            <TabsTrigger value="residents">Résidents</TabsTrigger>
-            <TabsTrigger value="reports">Rapports</TabsTrigger>
-            <TabsTrigger value="profile">Profil</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 bg-white p-1 rounded-lg shadow">
+            <TabsTrigger
+              value="validations"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Validations
+            </TabsTrigger>
+            <TabsTrigger
+              value="residents"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Résidents
+            </TabsTrigger>
+            <TabsTrigger
+              value="reports"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Rapports
+            </TabsTrigger>
+            <TabsTrigger
+              value="profile"
+              className="data-[state=active]:bg-black data-[state=active]:text-white text-gray-700 hover:text-black transition rounded-lg py-2"
+            >
+              Profil
+            </TabsTrigger>
           </TabsList>
 
           {/* Validations */}
@@ -181,7 +201,9 @@ const ChefDashboard = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Gestion des Résidents</CardTitle>
-                <CardDescription>Résidents enregistrés dans votre quartier</CardDescription>
+                <CardDescription>
+                  Résidents enregistrés dans votre quartier
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -223,7 +245,9 @@ const ChefDashboard = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Rapports du Quartier</CardTitle>
-                <CardDescription>Statistiques et rapports de votre zone</CardDescription>
+                <CardDescription>
+                  Statistiques et rapports de votre zone
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">

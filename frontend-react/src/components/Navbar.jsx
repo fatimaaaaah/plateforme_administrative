@@ -7,16 +7,28 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
 
   // Vérifie l'état de connexion à chaque changement d'URL
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    setIsAuthenticated(!!user);
+    const token = localStorage.getItem("token");
+    const user = token ? {
+      name: localStorage.getItem("userName"),
+      email: localStorage.getItem("userEmail"),
+      role: localStorage.getItem("userRole")
+    } : null;
+    
+    setIsAuthenticated(!!token);
+    setUserInfo(user);
   }, [location]);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userName");
     setIsAuthenticated(false);
+    setUserInfo(null);
     navigate("/login");
   };
 
@@ -38,10 +50,10 @@ const Navbar = () => {
             <Link to="/services" className="text-gray-600 hover:text-green-600 transition-colors">
               Services
             </Link>
-            <Link to="#" className="text-gray-600 hover:text-green-600 transition-colors">
+            <Link to="/faq" className="text-gray-600 hover:text-green-600 transition-colors">
               FAQ
             </Link>
-            <Link to="#" className="text-gray-600 hover:text-green-600 transition-colors">
+            <Link to="/contact" className="text-gray-600 hover:text-green-600 transition-colors">
               Contact
             </Link>
           </div>
@@ -49,9 +61,16 @@ const Navbar = () => {
           {/* Connexion ou Déconnexion */}
           <div className="flex items-center space-x-4">
             {isAuthenticated ? (
-              <Button variant="destructive" onClick={handleLogout}>
-                Se déconnecter
-              </Button>
+              <>
+                {userInfo && (
+                  <span className="hidden md:inline text-sm text-gray-600">
+                    Bonjour, {userInfo.name}
+                  </span>
+                )}
+                <Button variant="destructive" onClick={handleLogout}>
+                  Se déconnecter
+                </Button>
+              </>
             ) : (
               <>
                 <Button asChild variant="ghost">

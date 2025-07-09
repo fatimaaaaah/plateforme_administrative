@@ -9,6 +9,10 @@ import DashboardAdmin from "./pages/DashboardAdmin";
 import NewRequest from './pages/NewRequest';
 import DashboardChef from './pages/DashboardChef';
 import AllServices from './pages/AllServices';
+import FaqPage from './pages/FaqPage';
+import ContactPage from './pages/ContactPage';
+import AddChefPage from './pages/AddChefPage';
+
 
 
 function App() {
@@ -21,10 +25,13 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard-UTILISATEUR" element={<DashboardCitoyen />} /> {/* Route ajoutée */}
         <Route path="/dashboard-AGENTADMINIST" element={<DashboardAgent />} />
-        <Route path="/dashboard-admin" element={<DashboardAdmin />} />
-        <Route path="/dashboard-chef" element={<DashboardChef />} />
+        <Route path="/dashboard-administrateur" element={<DashboardAdmin />} />
+        <Route path="dashboard-chef_quartier" element={<DashboardChef />} />
         <Route path="/services" element={<AllServices />} />
         <Route path="/request/new" element={<NewRequest />} />
+        <Route path="/faq" element={<FaqPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/add-chef" element={<AddChefPage />} />
 
       </Routes>
     </Router>

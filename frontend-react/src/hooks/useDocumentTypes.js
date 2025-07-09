@@ -1,43 +1,42 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-const useDocumentTypes = () => {
+const STATIC_DOCUMENT_TYPES = [
+  {
+    id: "DOC-001",
+    nom: "Extrait de naissance",
+    prix: 2500,
+    description: "Document officiel attestant de la naissance.",
+  },
+  {
+    id: "DOC-002",
+    nom: "Certificat de nationalité",
+    prix: 5000,
+    description: "Preuve de la nationalité sénégalaise.",
+  },
+  {
+    id: "DOC-003",
+    nom: "Casier judiciaire",
+    prix: 10000,
+    description: "Atteste de la situation judiciaire d'un individu.",
+  },
+  {
+    id: "DOC-004",
+    nom: "Certificat de résidence",
+    prix: 1500,
+    description: "Justifie l'adresse de résidence de l'usager.",
+  },
+];
+
+export function useDocumentTypes() {
   const [documentTypes, setDocumentTypes] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Données locales simulées (mock)
-    const mockData = [
-      {
-        id: "acte_naissance",
-        nom: "Acte de naissance",
-        prix: 2000,
-        delaiTraitement: 3,
-        documentsRequis: ["Photocopie de la pièce d'identité", "Justificatif de domicile"]
-      },
-      {
-        id: "certificat_residence",
-        nom: "Certificat de résidence",
-        prix: 3000,
-        delaiTraitement: 5,
-        documentsRequis: ["Facture SENELEC", "Carte d'identité"]
-      },
-      {
-        id: "casier_judiciaire",
-        nom: "Extrait de casier judiciaire",
-        prix: 2500,
-        delaiTraitement: 4,
-        documentsRequis: ["Carte nationale d'identité"]
-      }
-    ];
+    const timer = setTimeout(() => {
+      setDocumentTypes(STATIC_DOCUMENT_TYPES);
+    }, 300);
 
-    // Simule un délai de chargement
-    setTimeout(() => {
-      setDocumentTypes(mockData);
-      setLoading(false);
-    }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
-  return { documentTypes, loading };
-};
-
-export default useDocumentTypes;
+  return { documentTypes };
+}
