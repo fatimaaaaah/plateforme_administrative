@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: plateforme_administ_db
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3307:3306"  # hôte:container
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./backend
+    container_name: spring-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/plateforme_administ_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      SPRING_SERVLET_CONTEXT_PATH: /api
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend-react
+    container_name: react-frontend
+    ports:
+      - "3000:80"
+
+volumes:
+  mysql_data:
